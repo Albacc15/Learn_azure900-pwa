@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Modo Aprendizaje</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script defer src="learn.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modo Aprendizaje - Azure Fundamentals</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script defer src="learn.js"></script>
 </head>
-<body class="bg-slate-50 text-slate-800 p-6">
-  <main class="max-w-xl mx-auto">
-    <h1 class="text-3xl font-bold mb-4 text-teal-700">📘 Modo Aprendizaje</h1>
-    <div id="content" class="space-y-4"></div>
-    <div class="mt-6">
-      <button id="nextBtn" class="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700">Siguiente</button>
-      <a href="index.html" class="ml-4 text-teal-600 underline hover:text-teal-800">← Volver al inicio</a>
+<body class="bg-purple-50 text-purple-900 p-6">
+    <header class="text-center mb-6">
+        <h1 class="text-3xl font-bold">📘 Modo Aprendizaje</h1>
+        <p class="text-sm">Aquí irás viendo el temario explicado con ejemplos y tu progreso.</p>
+    </header>
+
+    <div id="content" class="space-y-6 max-w-3xl mx-auto"></div>
+
+    <div class="flex justify-between mt-10">
+        <button onclick="location.href='index.html'" class="bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-800">
+            ← Volver al inicio
+        </button>
+        <div id="progressText" class="text-right font-semibold text-purple-700"></div>
     </div>
-  </main>
 </body>
 </html>
