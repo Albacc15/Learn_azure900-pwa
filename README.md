@@ -1,4 +1,4 @@
-# Learn_azure900-pwa 📚💻
+#📚 Learn_azure900-pwa 💻
 App for learning azure fundamentals 
 
 Esta es una app PWA para preparar el examen Microsoft Azure Fundamentals (AZ-900) de una manera interactiva.
