@@ -1,0 +1,10 @@
+
+{
+  "name": "AZ-900 App",
+  "short_name": "AZ900",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0078d4",
+  "icons": []
+}
