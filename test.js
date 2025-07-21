@@ -4,10 +4,16 @@ const questionsPerPage = 5;
 let correctAnswers = 0;
 let answeredCount = 0;
 
+function getRandomQuestions(arr, num) {
+  const shuffled = arr.sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, num);
+}
+
 async function loadQuestions() {
   try {
     const response = await fetch('questions.json');
-    questions = await response.json();
+    const allQuestions = await response.json();
+    questions = getRandomQuestions(allQuestions, 20); // selecciona 20 al azar
     renderPage(currentPage);
   } catch (error) {
     console.error('Error cargando questions.json:', error);
@@ -113,24 +119,4 @@ function renderNavigation() {
   }
 
   if ((currentPage + 1) * questionsPerPage < questions.length) {
-    const next = document.createElement("button");
-    next.textContent = "Seguinte →";
-    next.className = "px-4 py-2 bg-blue-300 rounded hover:bg-blue-400";
-    next.onclick = () => {
-      currentPage++;
-      renderPage(currentPage);
-    };
-    nav.appendChild(next);
-  }
-}
-
-function updateProgressBar() {
-  const total = questions.length;
-  const bar = document.getElementById("progress");
-  const percent = Math.round((answeredCount / total) * 100);
-  bar.style.width = percent + "%";
-  bar.textContent = `${percent}%`;
-}
-
-// Iniciar
-window.addEventListener("DOMContentLoaded", loadQuestions);
+    const next = d
