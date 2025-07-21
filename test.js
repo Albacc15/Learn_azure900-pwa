@@ -14,9 +14,9 @@ function shuffleArray(array) {
   return array;
 }
 
-// Selecciona preguntas aleatorias sin repetir
+// Selecciona preguntas aleatorias sin repetir, con shuffle optimizado
 function getRandomQuestions(allQuestions, num = 20) {
-  const shuffled = allQuestions.sort(() => 0.5 - Math.random());
+  const shuffled = shuffleArray([...allQuestions]); // hacer copia y mezclar bien
   return shuffled.slice(0, num);
 }
 
@@ -158,6 +158,36 @@ function updateProgressBar() {
   const percent = Math.round((answeredCount / total) * 100);
   bar.style.width = percent + "%";
   bar.textContent = `${percent}%`;
+}
+
+// Mostrar resultado final y botón reiniciar
+function showFinalResult() {
+  // Quitar preguntas y navegación
+  document.getElementById("questions-container").innerHTML = "";
+  document.getElementById("pagination").innerHTML = "";
+  
+  // Mostrar resultado
+  const resultDiv = document.createElement("div");
+  resultDiv.id = "final-result";
+  resultDiv.className = "p-6 bg-green-100 rounded text-center font-bold text-lg";
+
+  resultDiv.innerHTML = `Teste finalizado!<br>Respostas correctas: ${correctAnswers} de ${questions.length} <br> Aciertos: ${Math.round((correctAnswers / questions.length) * 100)}%`;
+
+  document.getElementById("questions-container").appendChild(resultDiv);
+
+// Botón para reiniciar
+  const restartBtn = document.createElement("button");
+  restartBtn.id = "restart-btn";
+  restartBtn.className = "mt-4 px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700";
+  restartBtn.textContent = "Reiniciar Test";
+  restartBtn.onclick = () => loadQuestions();
+
+  document.getElementById("questions-container").appendChild(restartBtn);
+
+    // Actualizar barra progreso a 100%
+  const bar = document.getElementById("progress");
+  bar.style.width = "100%";
+  bar.textContent = "100%";
 }
 
 // ⬇️ Esto va al FINAL del archivo
