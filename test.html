@@ -2,35 +2,36 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Modo Test - Azure Fundamentals</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Test AZ-900</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-  <script defer src="test.js"></script>
+  <style>
+    #progress {
+      height: 1.5rem;
+      background-color: #3b82f6; /* blue-500 */
+      color: white;
+      text-align: center;
+      line-height: 1.5rem;
+      font-weight: bold;
+      border-radius: 0.375rem;
+      width: 0;
+      transition: width 0.3s ease;
+    }
+  </style>
 </head>
-<body class="bg-blue-50 text-blue-900 p-6">
-  <main class="max-w-3xl mx-auto">
-    <h1 class="text-2xl font-bold mb-4">📝 Modo Test AZ-900</h1>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6">Simulador Examen AZ-900</h1>
 
-    <!-- Contenedor para las preguntas -->
-    <div id="questions-container" class="space-y-6"></div>
-
-    <!-- Navegación -->
-    <div id="pagination" class="mt-6 flex justify-between"></div>
-
-    <!-- Barra de progreso -->
-    <div class="mt-6">
-      <div class="bg-gray-300 rounded-full h-6">
-        <div id="progress" class="bg-blue-600 h-6 text-white text-sm text-center leading-6 rounded-full" style="width: 0%;">0%</div>
-      </div>
+    <div class="mb-4 bg-white rounded shadow p-2">
+      <div id="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">0%</div>
     </div>
 
-    <!-- Contenedor para resultado final y botón reiniciar -->
-    <div id="result-container" class="mt-6 text-center"></div>
+    <div id="questions-container" class="mb-6"></div>
+    <div id="pagination" class="mb-6 flex justify-center"></div>
+    <div id="result-container" class="mb-6 text-center"></div>
+  </div>
 
-    <!-- Enlace para volver -->
-    <div class="mt-6">
-      <a href="index.html" class="text-blue-700 underline">← Volver al inicio</a>
-    </div>
-  </main>
+  <script src="test.js"></script>
 </body>
 </html>
