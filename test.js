@@ -1,19 +1,29 @@
+//Variables globales
 let questions = [];
 let currentPage = 0;
 const questionsPerPage = 5;
 let correctAnswers = 0;
 let answeredCount = 0;
 
-function getRandomQuestions(arr, num) {
-  const shuffled = arr.sort(() => 0.5 - Math.random());
+// Selecciona preguntas aleatorias sin repetir
+function getRandomQuestions(allQuestions, num = 20) {
+  const shuffled = allQuestions.sort(() => 0.5 - Math.random());
   return shuffled.slice(0, num);
 }
 
+// Carga las preguntas desde el JSON y renderiza la primera página
 async function loadQuestions() {
   try {
     const response = await fetch('questions.json');
     const allQuestions = await response.json();
+    
     questions = getRandomQuestions(allQuestions, 20); // selecciona 20 al azar
+    
+    currentPage = 0;       // empezar desde la página 0
+    correctAnswers = 0;    // reset contador aciertos
+    answeredCount = 0;     // reset contador respondidas
+
+    
     renderPage(currentPage);
   } catch (error) {
     console.error('Error cargando questions.json:', error);
@@ -21,6 +31,7 @@ async function loadQuestions() {
   }
 }
 
+// Muestra una página del test (5 preguntas)
 function renderPage(page) {
   const container = document.getElementById("questions-container");
   container.innerHTML = "";
@@ -68,6 +79,7 @@ function renderPage(page) {
   updateProgressBar();
 }
 
+// Comprobación de respuestas
 function checkAnswer(index, correctIndex, explanation) {
   const radios = document.getElementsByName("q" + index);
   const feedback = document.getElementById("f" + index);
@@ -103,6 +115,8 @@ function checkAnswer(index, correctIndex, explanation) {
   updateProgressBar();
 }
 
+
+// Navegación entre páginas
 function renderNavigation() {
   const nav = document.getElementById("pagination");
   nav.innerHTML = "";
@@ -119,4 +133,27 @@ function renderNavigation() {
   }
 
   if ((currentPage + 1) * questionsPerPage < questions.length) {
-    const next = d
+    const next = document.createElement("button");
+    next.textContent = "Seguinte →";
+    next.className = "px-4 py-2 bg-blue-300 rounded hover:bg-blue-400";
+    next.onclick = () => {
+      currentPage++;
+      renderPage(currentPage);
+    };
+     nav.appendChild(next);
+  }
+}
+
+// Barra de progreso
+function updateProgressBar() {
+  const total = questions.length;
+  const bar = document.getElementById("progress");
+  const percent = Math.round((answeredCount / total) * 100);
+  bar.style.width = percent + "%";
+  bar.textContent = `${percent}%`;
+}
+
+// ⬇️ Esto va al FINAL del archivo
+// Cuando la página cargue, se ejecuta loadQuestions(); / Iniciar la carga al cargar DOM
+window.addEventListener("DOMContentLoaded", loadQuestions);
+
