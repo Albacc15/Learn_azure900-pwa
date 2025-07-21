@@ -2,35 +2,16 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Learn Azure Fundamentals</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Azure Fundamentals App</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="manifest" href="manifest.json" />
 </head>
-<body class="bg-blue-50 text-blue-900 p-6">
-  <main class="min-h-screen flex flex-col items-center justify-center text-center px-4 space-y-6">
-    <h1 class="text-3xl font-bold" style="color: oklch(29.3% 0.136 325.661);">
-      Benvida á app de aprendizaxe e test de Azure Fundamentals ✨
-    </h1>
-    <div class="space-y-4 w-full max-w-sm">
-      <button onclick="location.href='test.html'" class="w-full py-3 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700">
-        Modo Test
-      </button>
-      <button onclick="location.href='learn.html'" class="w-full py-3 bg-green-600 text-white font-semibold rounded hover:bg-green-700">
-        Modo Aprendizaxe
-      </button>
-      <button onclick="location.href='progress.html'" class="w-full py-3 bg-gray-600 text-white font-semibold rounded hover:bg-gray-700">
-        Progreso
-      </button>
-    </div>
+<body class="bg-[oklch(29.3%_0.136_325.661)] text-[oklch(28.4%_0.109_3.907)] p-6">
+  <main class="max-w-2xl mx-auto text-center space-y-4">
+    <h1 class="text-3xl font-bold">📘 Simulador AZ‑900</h1>
+    <a href="test.html" class="block px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700">Modo Test</a>
+    <a href="learn.html" class="block px-6 py-3 bg-green-600 text-white rounded hover:bg-green-700">Modo Aprendizaxe</a>
+    <a href="progress.html" class="block px-6 py-3 bg-gray-600 text-white rounded hover:bg-gray-700">Progreso</a>
   </main>
-
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/Learn_azure900-pwa/service-worker.js', {
-        scope: '/Learn_azure900-pwa/'
-      }).then(() => console.log('Service Worker registrado'));
-    }
-  </script>
 </body>
 </html>
