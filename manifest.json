@@ -1,10 +1,17 @@
 
 {
-  "name": "AZ-900 App",
-  "short_name": "AZ900",
-  "start_url": "./index.html",
+  "name": "Learn Azure Fundamentals",
+  "short_name": "AzureLearn",
+  "start_url": "/Learn_azure900-pwa/index.html",
+  "scope": "/Learn_azure900-pwa/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#0078d4",
-  "icons": []
+  "background_color": "#b49dc4",
+  "theme_color": "#68b6f2",
+  "icons": [
+    {
+      "src": "/Learn_azure900-pwa/icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
 }
