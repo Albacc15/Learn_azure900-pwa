@@ -1,169 +1,36 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AZ-900 App</title>
-  <link rel="manifest" href="manifest.json">
-  <style>
-    body { font-family: sans-serif; background: #f9f9f9; padding: 20px; }
-    .hidden { display: none; }
-    .question, .section { background: #fff; padding: 15px; margin-bottom: 20px; border-radius: 10px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
-    .options { list-style: none; padding-left: 0; }
-    .options li { margin: 8px 0; }
-    button, .toggle-mode { margin-top: 10px; padding: 10px; }
-    .feedback { margin-top: 10px; font-weight: bold; }
-    #progress-bar { width: 100%; background: #ccc; height: 20px; margin: 10px 0; border-radius: 5px; overflow: hidden; }
-    #progress { height: 100%; background: #0078d4; width: 0%; }
-  </style>
+  <title>Learn Azure Fundamentals</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="manifest" href="manifest.json" />
 </head>
-<body>
-  <h1>AZ-900 App</h1>
-  <button class="toggle-mode" onclick="toggleMode()">Cambiar a Modo Aprendizaje</button>
-  <div id="test-mode"></div>
-  <div id="learn-mode" class="hidden">
-    <h2>Modo Aprendizaje</h2>
-    <div id="progress-bar"><div id="progress"></div></div>
-    <div id="learn-content"></div>
-  </div>
+<body class="bg-blue-50 text-blue-900 p-6">
+  <main class="min-h-screen flex flex-col items-center justify-center text-center px-4 space-y-6">
+    <h1 class="text-3xl font-bold" style="color: oklch(29.3% 0.136 325.661);">
+      Benvida á app de aprendizaxe e test de Azure Fundamentals ✨
+    </h1>
+    <div class="space-y-4 w-full max-w-sm">
+      <button onclick="location.href='test.html'" class="w-full py-3 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700">
+        Modo Test
+      </button>
+      <button onclick="location.href='learn.html'" class="w-full py-3 bg-green-600 text-white font-semibold rounded hover:bg-green-700">
+        Modo Aprendizaxe
+      </button>
+      <button onclick="location.href='progress.html'" class="w-full py-3 bg-gray-600 text-white font-semibold rounded hover:bg-gray-700">
+        Progreso
+      </button>
+    </div>
+  </main>
 
-<script>
-// Preguntas del test
-const questions = [
-  {
-    question: "¿Cuál es una característica de la nube pública?",
-    options: ["Solo es accesible desde redes privadas", "Está dedicada a una única organización", "Proporciona recursos compartidos"],
-    answer: 2,
-    explanation: "La nube pública como Azure proporciona servicios a través de Internet a múltiples usuarios."
-  },
-  {
-    question: "¿Qué servicio proporciona Azure para el almacenamiento masivo de datos no estructurados?",
-    options: ["Azure SQL Database", "Azure Blob Storage", "Azure App Service"],
-    answer: 1,
-    explanation: "Blob Storage es ideal para datos como imágenes, vídeos, copias de seguridad."
-  },
-  {
-    question: "¿Cuál de las siguientes opciones describe correctamente PaaS?",
-    options: ["El usuario gestiona el hardware", "El usuario solo usa la aplicación final", "El usuario sube su código sin gestionar la infraestructura"],
-    answer: 2,
-    explanation: "En PaaS, tú desarrollas y despliegas la app, Azure gestiona servidores y redes."
-  }
-];
-
-while (questions.length < 30) {
-  questions.push(questions[questions.length % 3]);
-}
-
-// Contenido por bloques temáticos
-const learningContent = [
-  { title: "Cloud Concepts", content: "Azure es una plataforma de nube pública. Ofrece IaaS, PaaS y SaaS. La nube permite escalar y pagar por uso." },
-  { title: "Core Azure Services", content: "Servicios clave incluyen Azure Compute, Azure Storage, Azure Networking. Cada uno permite ejecutar, almacenar y conectar apps." },
-  { title: "Core Solutions and Management Tools", content: "Azure ofrece soluciones como App Services, Functions y herramientas como Azure Portal, CLI y PowerShell." },
-  { title: "Security Features", content: "Incluye Azure Security Center, firewalls, políticas de red y cifrado para proteger recursos." },
-  { title: "Identity & Governance", content: "Azure Active Directory (AD) gestiona usuarios. Las políticas de gobernanza permiten controlar acceso y cumplimiento." },
-  { title: "Pricing & Support", content: "Azure tiene modelos de precios por uso, reservas y soporte técnico con diferentes planes." }
-];
-
-function renderTestMode() {
-  const testContainer = document.getElementById("test-mode");
-  testContainer.innerHTML = "";
-  questions.forEach((q, i) => {
-    const div = document.createElement("div");
-    div.className = "question";
-    div.innerHTML = `<p><strong>${i+1}. ${q.question}</strong></p>`;
-    const ul = document.createElement("ul");
-    ul.className = "options";
-    q.options.forEach((opt, j) => {
-      ul.innerHTML += `<li><label><input type="radio" name="q${i}" value="${j}"> ${opt}</label></li>`;
-    });
-    div.appendChild(ul);
-    const button = document.createElement("button");
-    button.textContent = "Comprobar";
-    button.onclick = () => checkAnswer(i, q.answer, q.explanation);
-    div.appendChild(button);
-    div.innerHTML += `<p class="feedback" id="f${i}"></p>`;
-    testContainer.appendChild(div);
-  });
-}
-
-function checkAnswer(qNum, correctIndex, explanation) {
-  const radios = document.getElementsByName("q" + qNum);
-  let selected = -1;
-  for (let i = 0; i < radios.length; i++) {
-    if (radios[i].checked) {
-      selected = parseInt(radios[i].value);
-      break;
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/Learn_azure900-pwa/service-worker.js', {
+        scope: '/Learn_azure900-pwa/'
+      }).then(() => console.log('Service Worker registrado'));
     }
-  }
-  const feedback = document.getElementById("f" + qNum);
-  if (selected === -1) {
-    feedback.innerText = "Por favor, selecciona una opción.";
-    feedback.style.color = "orange";
-  } else if (selected === correctIndex) {
-    feedback.innerText = "✔ Correcto. " + explanation;
-    feedback.style.color = "green";
-  } else {
-    feedback.innerText = "✘ Incorrecto. " + explanation;
-    feedback.style.color = "red";
-  }
-}
-
-function renderLearnMode() {
-  const contentDiv = document.getElementById("learn-content");
-  contentDiv.innerHTML = "";
-  let viewed = JSON.parse(localStorage.getItem("viewedBlocks") || "[]");
-  learningContent.forEach((section, index) => {
-    const div = document.createElement("div");
-    div.className = "section";
-    div.innerHTML = `<h3>${section.title}</h3><p>${section.content}</p>`;
-    const button = document.createElement("button");
-    button.textContent = viewed.includes(index) ? "✓ Leído" : "Marcar como leído";
-    button.onclick = () => {
-      if (!viewed.includes(index)) {
-        viewed.push(index);
-        localStorage.setItem("viewedBlocks", JSON.stringify(viewed));
-        renderProgress();
-        renderLearnMode();
-      }
-    };
-    div.appendChild(button);
-    contentDiv.appendChild(div);
-  });
-}
-
-function renderProgress() {
-  let viewed = JSON.parse(localStorage.getItem("viewedBlocks") || "[]");
-  const percent = Math.round((viewed.length / learningContent.length) * 100);
-  document.getElementById("progress").style.width = percent + "%";
-}
-
-function toggleMode() {
-  const test = document.getElementById("test-mode");
-  const learn = document.getElementById("learn-mode");
-  const toggleBtn = document.querySelector(".toggle-mode");
-  if (test.classList.contains("hidden")) {
-    test.classList.remove("hidden");
-    learn.classList.add("hidden");
-    toggleBtn.textContent = "Cambiar a Modo Aprendizaje";
-  } else {
-    test.classList.add("hidden");
-    learn.classList.remove("hidden");
-    toggleBtn.textContent = "Cambiar a Modo Test";
-    renderProgress();
-    renderLearnMode();
-  }
-}
-
-renderTestMode();
-</script>
-
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js')
-    .then(reg => console.log("SW registrado"))
-    .catch(err => console.error("SW fallo", err));
-}
-</script>
+  </script>
 </body>
 </html>
