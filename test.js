@@ -1,9 +1,18 @@
-//Variables globales
+// Variables globales
 let questions = [];
 let currentPage = 0;
 const questionsPerPage = 5;
 let correctAnswers = 0;
 let answeredCount = 0;
+
+// Función para mezclar aleatoriamente un array (Fisher-Yates shuffle)
+function shuffleArray(array) {
+  for (let i = array.length -1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i+1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 
 // Selecciona preguntas aleatorias sin repetir
 function getRandomQuestions(allQuestions, num = 20) {
@@ -23,7 +32,6 @@ async function loadQuestions() {
     correctAnswers = 0;    // reset contador aciertos
     answeredCount = 0;     // reset contador respondidas
 
-    
     renderPage(currentPage);
   } catch (error) {
     console.error('Error cargando questions.json:', error);
@@ -115,7 +123,6 @@ function checkAnswer(index, correctIndex, explanation) {
   updateProgressBar();
 }
 
-
 // Navegación entre páginas
 function renderNavigation() {
   const nav = document.getElementById("pagination");
@@ -156,4 +163,3 @@ function updateProgressBar() {
 // ⬇️ Esto va al FINAL del archivo
 // Cuando la página cargue, se ejecuta loadQuestions(); / Iniciar la carga al cargar DOM
 window.addEventListener("DOMContentLoaded", loadQuestions);
-
