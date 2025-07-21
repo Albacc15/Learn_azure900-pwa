@@ -7,16 +7,16 @@ let answeredCount = 0;
 
 // Función para mezclar aleatoriamente un array (Fisher-Yates shuffle)
 function shuffleArray(array) {
-  for (let i = array.length -1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i+1));
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
   }
   return array;
 }
 
-// Selecciona preguntas aleatorias sin repetir, con shuffle optimizado
+// Selecciona preguntas aleatorias sin repetir
 function getRandomQuestions(allQuestions, num = 20) {
-  const shuffled = shuffleArray([...allQuestions]); // hacer copia y mezclar bien
+  const shuffled = shuffleArray([...allQuestions]); // hacer copia y mezclar
   return shuffled.slice(0, num);
 }
 
@@ -25,12 +25,16 @@ async function loadQuestions() {
   try {
     const response = await fetch('questions.json');
     const allQuestions = await response.json();
-    
+
     questions = getRandomQuestions(allQuestions, 20); // selecciona 20 al azar
-    
+
     currentPage = 0;       // empezar desde la página 0
     correctAnswers = 0;    // reset contador aciertos
     answeredCount = 0;     // reset contador respondidas
+
+    document.getElementById("result-container").innerHTML = "";
+    document.getElementById("questions-container").style.display = "";
+    document.getElementById("pagination").style.display = "";
 
     renderPage(currentPage);
   } catch (error) {
@@ -61,7 +65,7 @@ function renderPage(page) {
     q.options.forEach((opt, j) => {
       const li = document.createElement("li");
       li.innerHTML = `
-        <label class="block my-2">
+        <label class="block my-2 cursor-pointer">
           <input type="radio" name="q${questionIndex}" value="${j}" class="mr-2"> ${opt}
         </label>`;
       ul.appendChild(li);
@@ -121,6 +125,11 @@ function checkAnswer(index, correctIndex, explanation) {
   }
 
   updateProgressBar();
+
+  // Mostrar resultado final solo si todas las preguntas han sido respondidas
+  if (answeredCount === questions.length) {
+    showFinalResult();
+  }
 }
 
 // Navegación entre páginas
@@ -147,7 +156,7 @@ function renderNavigation() {
       currentPage++;
       renderPage(currentPage);
     };
-     nav.appendChild(next);
+    nav.appendChild(next);
   }
 }
 
@@ -155,41 +164,52 @@ function renderNavigation() {
 function updateProgressBar() {
   const total = questions.length;
   const bar = document.getElementById("progress");
-  const percent = Math.round((answeredCount / total) * 100);
+  const percent = total ? Math.round((answeredCount / total) * 100) : 0;
   bar.style.width = percent + "%";
   bar.textContent = `${percent}%`;
 }
 
 // Mostrar resultado final y botón reiniciar
 function showFinalResult() {
-  // Quitar preguntas y navegación
-  document.getElementById("questions-container").innerHTML = "";
-  document.getElementById("pagination").innerHTML = "";
-  
-  // Mostrar resultado
-  const resultDiv = document.createElement("div");
-  resultDiv.id = "final-result";
-  resultDiv.className = "p-6 bg-green-100 rounded text-center font-bold text-lg";
+  const container = document.getElementById("questions-container");
+  const pagination = document.getElementById("pagination");
+  const resultContainer = document.getElementById("result-container");
 
-  resultDiv.innerHTML = `Teste finalizado!<br>Respostas correctas: ${correctAnswers} de ${questions.length} <br> Aciertos: ${Math.round((correctAnswers / questions.length) * 100)}%`;
+  container.style.display = "none";
+  pagination.style.display = "none";
 
-  document.getElementById("questions-container").appendChild(resultDiv);
+  const total = questions.length;
+  const percent = Math.round((correctAnswers / total) * 100);
 
-// Botón para reiniciar
-  const restartBtn = document.createElement("button");
-  restartBtn.id = "restart-btn";
-  restartBtn.className = "mt-4 px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700";
-  restartBtn.textContent = "Reiniciar Test";
-  restartBtn.onclick = () => loadQuestions();
+  let message = "";
+  if (percent >= 90) {
+    message = "🎉 Excelente resultado!(>90)";
+  } else if (percent >= 70) {
+    message = "👍 Buen trabajo, sigue practicando(>70).";
+  } else {
+    message = "💪 Ánimo, puedes mejorar.";
+  }
 
-  document.getElementById("questions-container").appendChild(restartBtn);
+  resultContainer.innerHTML = `
+    <p class="text-xl font-bold mb-4">Fin del test.</p>
+    <p class="mb-2">Has contestado correctamente <strong>${correctAnswers}</strong> de <strong>${total}</strong> preguntas.</p>
+    <p class="mb-4">Tu puntuación: <strong>${percent}%</strong></p>
+    <p class="mb-6">${message}</p>
+    <button id="restart-btn" class="px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700">Reiniciar test</button>
+  `;
 
-    // Actualizar barra progreso a 100%
+  document.getElementById("restart-btn").onclick = () => {
+    resultContainer.innerHTML = "";
+    container.style.display = "";
+    pagination.style.display = "";
+    loadQuestions();
+  };
+
+  // Actualizar barra progreso al 100%
   const bar = document.getElementById("progress");
   bar.style.width = "100%";
   bar.textContent = "100%";
 }
 
-// ⬇️ Esto va al FINAL del archivo
-// Cuando la página cargue, se ejecuta loadQuestions(); / Iniciar la carga al cargar DOM
+// ⬇️ Iniciar la carga al cargar DOM
 window.addEventListener("DOMContentLoaded", loadQuestions);
